@@ -1,10 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pokemon/app_route/app_pages_route.gr.dart';
 import 'package:pokemon/pages/widgets/pokenmon_card.dart';
 import 'package:pokemon/providers/state_controller_provider/pokenmon_mainpage_statecontroller_provider.dart';
+import 'package:pokemon/providers/state_provider/pokenmonFormStateProvider.dart';
 import 'package:pokemon/providers/state_provider/pokenmon_pageindex_holder_provider.dart';
 import 'package:pokemon/services/pokenmon_repository/pokenmon_repository.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -28,59 +31,60 @@ class MainPokemonPage extends HookWidget {
           width: size.width,
           height: size.height,
           padding: EdgeInsets.symmetric(horizontal: 10.w),
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(child: SizedBox(height: 20.h,)),
-              SliverToBoxAdapter(
-                child: Center(
-                  child: Text("Pokenmon App",style: TextStyle(
-                    color: Colors.black,fontSize: 20.sp
-                  ),),
-                ),
+          child: Column(
+            children: [
+              SizedBox(height: 20.h,),
+              Center(
+                child: Text("Pokenmon App",style: TextStyle(
+                  color: Colors.black,fontSize: 20.sp
+                ),),
               ),
-              SliverToBoxAdapter(child: SizedBox(height: 20.h,)),
-              SliverFillRemaining(
+              SizedBox(height: 20.h,),
+              Container(
+                width: size.width,
+                height: size.height*0.85,
                 child: NotificationListener<ScrollNotification>(
                   onNotification: (scrollNotification)=>_handleScrollNotification(scrollNotification, context,pokenPageIndexState),
-                  child: Container(
-                    width: size.width,
-                    height: size.height*0.9,
-                    child: CustomScrollView(
-                      slivers: [
-                        FutureBuilder<Either<NetworkFailure, PokenmonNamesModel>>(
-                            future: context.read(pokenmonRepositoryProvider).getPokenmon(),builder: (context,snapshot){
-                          if(snapshot.hasData){
-                            return snapshot.data!.fold((l){
-                              showTopSnackBar(
-                                context,
-                                CustomSnackBar.error(
-                                  backgroundColor: const Color(0xffcf4537),
-                                  message:l.prefix??"",
-                                ),
-                              );
-                              return SliverToBoxAdapter(child: SizedBox.shrink());
-                            }, (r){
-                              return SliverGrid(delegate: SliverChildBuilderDelegate(
-                                    (context, index){
-                                  return PokenmonCard(id: index+1, pokenmonResultModel: r.results[index], onButtonPressed: (){
-
+                  child: CustomScrollView(
+                    slivers: [
+                      FutureBuilder<Either<NetworkFailure, PokenmonNamesModel>>(
+                          future: context.read(pokenmonRepositoryProvider).getPokenmon(),builder: (context,snapshot){
+                        if(snapshot.hasData){
+                          return snapshot.data!.fold((l){
+                            showTopSnackBar(
+                              context,
+                              CustomSnackBar.error(
+                                backgroundColor: const Color(0xffcf4537),
+                                message:l.prefix??"",
+                              ),
+                            );
+                            return SliverToBoxAdapter(child: SizedBox.shrink());
+                          }, (r){
+                            return SliverToBoxAdapter(
+                              child: SizedBox(
+                                width: size.width,
+                                height: size.height*0.85,
+                                child: GridView.builder(itemBuilder:  (context, index){
+                                  return PokenmonCard(id: index+1, pokenmonResultModel: r.results[index], onButtonPressed: (pokenForm){
+                                      context.router.navigate(PokenmonDetailRoute(pokenmonFormModel: pokenForm));
                                   },);
                                 },
-                                childCount: r.results.length,
-                              ),gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,mainAxisSpacing: 15.h,crossAxisSpacing: 10.w),);
-                            });
-                          }else if(snapshot.connectionState==ConnectionState.waiting){
-                            return SliverToBoxAdapter(child: Center(child: CircularProgressIndicator()));
-                          }else{
-                            return SliverToBoxAdapter(
-                              child: Center(child: Text("No Pokemon",style: TextStyle(
-                                  color: Colors.black,fontSize: 16.sp
-                              ),)),
+                                  itemCount: r.results.length,
+                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,mainAxisSpacing: 15.h,crossAxisSpacing: 10.w),),
+                              ),
                             );
-                          }
-                        })
-                      ],
-                    ),
+                          });
+                        }else if(snapshot.connectionState==ConnectionState.waiting){
+                          return SliverToBoxAdapter(child: Center(child: CircularProgressIndicator()));
+                        }else{
+                          return SliverToBoxAdapter(
+                            child: Center(child: Text("No Pokemon",style: TextStyle(
+                                color: Colors.black,fontSize: 16.sp
+                            ),)),
+                          );
+                        }
+                      })
+                    ],
                   ),
                 ),
               )

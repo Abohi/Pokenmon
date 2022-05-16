@@ -41,7 +41,7 @@ class PokenmonRepository implements BasePokenmonRepository {
   @override
   Future<Either<NetworkFailure, PokenmonFormModel>> getPokenmonForm(int id) async{
     try{
-      final Map<String, dynamic> response = await _read.read(networkHelperProvider).getRequest(ApiRoutes.POKEN_FORM+"/${id}", {}) as Map<String, dynamic>;
+      final Map<String, dynamic> response = await _read.read(networkHelperProvider).getRequest(ApiRoutes.GET_POKENMON+"/${id}", {}) as Map<String, dynamic>;
       final base = PokenmonFormModel.fromJson(response);
       return right(base);
     }on NetworkFailure catch (e) {

@@ -21,9 +21,18 @@ PokenmonFormModel _$PokenmonFormModelFromJson(Map<String, dynamic> json) {
 class _$PokenmonFormModelTearOff {
   const _$PokenmonFormModelTearOff();
 
-  _PokenmonFormModel call({required PokenmonSpriteModel sprites}) {
+  _PokenmonFormModel call(
+      {required PokenmonSpriteModel sprites,
+      required num? height,
+      required num? weight,
+      required List<TypesModel>? types,
+      required String name}) {
     return _PokenmonFormModel(
       sprites: sprites,
+      height: height,
+      weight: weight,
+      types: types,
+      name: name,
     );
   }
 
@@ -38,6 +47,10 @@ const $PokenmonFormModel = _$PokenmonFormModelTearOff();
 /// @nodoc
 mixin _$PokenmonFormModel {
   PokenmonSpriteModel get sprites => throw _privateConstructorUsedError;
+  num? get height => throw _privateConstructorUsedError;
+  num? get weight => throw _privateConstructorUsedError;
+  List<TypesModel>? get types => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,7 +63,12 @@ abstract class $PokenmonFormModelCopyWith<$Res> {
   factory $PokenmonFormModelCopyWith(
           PokenmonFormModel value, $Res Function(PokenmonFormModel) then) =
       _$PokenmonFormModelCopyWithImpl<$Res>;
-  $Res call({PokenmonSpriteModel sprites});
+  $Res call(
+      {PokenmonSpriteModel sprites,
+      num? height,
+      num? weight,
+      List<TypesModel>? types,
+      String name});
 
   $PokenmonSpriteModelCopyWith<$Res> get sprites;
 }
@@ -67,12 +85,32 @@ class _$PokenmonFormModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? sprites = freezed,
+    Object? height = freezed,
+    Object? weight = freezed,
+    Object? types = freezed,
+    Object? name = freezed,
   }) {
     return _then(_value.copyWith(
       sprites: sprites == freezed
           ? _value.sprites
           : sprites // ignore: cast_nullable_to_non_nullable
               as PokenmonSpriteModel,
+      height: height == freezed
+          ? _value.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as num?,
+      weight: weight == freezed
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as num?,
+      types: types == freezed
+          ? _value.types
+          : types // ignore: cast_nullable_to_non_nullable
+              as List<TypesModel>?,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 
@@ -91,7 +129,12 @@ abstract class _$PokenmonFormModelCopyWith<$Res>
           _PokenmonFormModel value, $Res Function(_PokenmonFormModel) then) =
       __$PokenmonFormModelCopyWithImpl<$Res>;
   @override
-  $Res call({PokenmonSpriteModel sprites});
+  $Res call(
+      {PokenmonSpriteModel sprites,
+      num? height,
+      num? weight,
+      List<TypesModel>? types,
+      String name});
 
   @override
   $PokenmonSpriteModelCopyWith<$Res> get sprites;
@@ -111,12 +154,32 @@ class __$PokenmonFormModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? sprites = freezed,
+    Object? height = freezed,
+    Object? weight = freezed,
+    Object? types = freezed,
+    Object? name = freezed,
   }) {
     return _then(_PokenmonFormModel(
       sprites: sprites == freezed
           ? _value.sprites
           : sprites // ignore: cast_nullable_to_non_nullable
               as PokenmonSpriteModel,
+      height: height == freezed
+          ? _value.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as num?,
+      weight: weight == freezed
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as num?,
+      types: types == freezed
+          ? _value.types
+          : types // ignore: cast_nullable_to_non_nullable
+              as List<TypesModel>?,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -124,17 +187,30 @@ class __$PokenmonFormModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_PokenmonFormModel implements _PokenmonFormModel {
-  const _$_PokenmonFormModel({required this.sprites});
+  const _$_PokenmonFormModel(
+      {required this.sprites,
+      required this.height,
+      required this.weight,
+      required this.types,
+      required this.name});
 
   factory _$_PokenmonFormModel.fromJson(Map<String, dynamic> json) =>
       _$$_PokenmonFormModelFromJson(json);
 
   @override
   final PokenmonSpriteModel sprites;
+  @override
+  final num? height;
+  @override
+  final num? weight;
+  @override
+  final List<TypesModel>? types;
+  @override
+  final String name;
 
   @override
   String toString() {
-    return 'PokenmonFormModel(sprites: $sprites)';
+    return 'PokenmonFormModel(sprites: $sprites, height: $height, weight: $weight, types: $types, name: $name)';
   }
 
   @override
@@ -142,12 +218,26 @@ class _$_PokenmonFormModel implements _PokenmonFormModel {
     return identical(this, other) ||
         (other is _PokenmonFormModel &&
             (identical(other.sprites, sprites) ||
-                const DeepCollectionEquality().equals(other.sprites, sprites)));
+                const DeepCollectionEquality()
+                    .equals(other.sprites, sprites)) &&
+            (identical(other.height, height) ||
+                const DeepCollectionEquality().equals(other.height, height)) &&
+            (identical(other.weight, weight) ||
+                const DeepCollectionEquality().equals(other.weight, weight)) &&
+            (identical(other.types, types) ||
+                const DeepCollectionEquality().equals(other.types, types)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(sprites);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(sprites) ^
+      const DeepCollectionEquality().hash(height) ^
+      const DeepCollectionEquality().hash(weight) ^
+      const DeepCollectionEquality().hash(types) ^
+      const DeepCollectionEquality().hash(name);
 
   @JsonKey(ignore: true)
   @override
@@ -161,14 +251,26 @@ class _$_PokenmonFormModel implements _PokenmonFormModel {
 }
 
 abstract class _PokenmonFormModel implements PokenmonFormModel {
-  const factory _PokenmonFormModel({required PokenmonSpriteModel sprites}) =
-      _$_PokenmonFormModel;
+  const factory _PokenmonFormModel(
+      {required PokenmonSpriteModel sprites,
+      required num? height,
+      required num? weight,
+      required List<TypesModel>? types,
+      required String name}) = _$_PokenmonFormModel;
 
   factory _PokenmonFormModel.fromJson(Map<String, dynamic> json) =
       _$_PokenmonFormModel.fromJson;
 
   @override
   PokenmonSpriteModel get sprites => throw _privateConstructorUsedError;
+  @override
+  num? get height => throw _privateConstructorUsedError;
+  @override
+  num? get weight => throw _privateConstructorUsedError;
+  @override
+  List<TypesModel>? get types => throw _privateConstructorUsedError;
+  @override
+  String get name => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$PokenmonFormModelCopyWith<_PokenmonFormModel> get copyWith =>

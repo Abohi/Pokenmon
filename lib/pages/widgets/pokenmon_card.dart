@@ -10,11 +10,12 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../models/network_failure_model/network_failure.dart';
+import '../../providers/state_provider/pokenmonFormStateProvider.dart';
 
 class PokenmonCard extends HookWidget {
   final int id;
   final PokenmonResultModel pokenmonResultModel;
-  final Function onButtonPressed;
+  final Function(PokenmonFormModel? formModel) onButtonPressed;
   const PokenmonCard({required this.id,required this.pokenmonResultModel,required this.onButtonPressed});
 
   @override
@@ -33,13 +34,9 @@ class PokenmonCard extends HookWidget {
           )
         ]
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          FutureBuilder<Either<NetworkFailure, PokenmonFormModel>>(
+      child: FutureBuilder<Either<NetworkFailure, PokenmonFormModel>>(
           future: context.read(pokenmonRepositoryProvider).getPokenmonForm(id),
-              builder: (context,snapshot){
+          builder: (context,snapshot){
             if(snapshot.hasData){
               return snapshot.data!.fold((l){
                 showTopSnackBar(
@@ -51,18 +48,36 @@ class PokenmonCard extends HookWidget {
                 );
                 return SizedBox.shrink();
               }, (r){
-                return r.sprites.back_default==null?SizedBox.shrink():Center(child: Image.network(r.sprites.back_default!));
+                return GestureDetector(
+                  onTap: (){
+                    onButtonPressed(r);
+                  },
+                  child: Column(children: [
+                    r.sprites.back_default==null?SizedBox.shrink():Center(child: Image.network(r.sprites.back_default!)),
+                    SizedBox(height: 15,),
+                    Center(child: Text(pokenmonResultModel.name.toUpperCase(),style: TextStyle(fontSize: 16,color: Colors.black),))
+                  ]),
+                );
               });
             }else if(snapshot.connectionState==ConnectionState.waiting){
               return Center(child: CircularProgressIndicator());
             }else{
-              return SizedBox.shrink();
+              return GestureDetector(
+                onTap: (){
+                  onButtonPressed(null);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox.shrink(),
+                    Center(child: Text(pokenmonResultModel.name.toUpperCase(),style: TextStyle(fontSize: 16,color: Colors.black),))
+                  ],
+                ),
+              );
             }
           }),
-          SizedBox(height: 15,),
-          Center(child: Text(pokenmonResultModel.name.toUpperCase(),style: TextStyle(fontSize: 16,color: Colors.black),))
-        ],
-      ),
     );
   }
 }
+//
