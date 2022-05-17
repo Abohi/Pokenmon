@@ -3,6 +3,6 @@ part 'pokenmon_results_model.freezed.dart';
 part 'pokenmon_results_model.g.dart';
 @freezed
 class PokenmonResultModel with _$PokenmonResultModel{
-  const factory PokenmonResultModel({required String name})=_PokenmonResultModel;
+  const factory PokenmonResultModel({required String name,required String url})=_PokenmonResultModel;
   factory PokenmonResultModel.fromJson(Map<String, dynamic> json) => _$PokenmonResultModelFromJson(json);
 }

@@ -20,11 +20,11 @@ class NetworkHelper {
   // static String paystackBaseUrl =dotenv..env['PAYSTACK_BASE_URL']!;
   final http.Client _http;
 
-  Future<dynamic> getRequest(String url, [Map<String, String>? header,bool?bank]) async {
+  Future<dynamic> getRequest(String url, bool isDetail,[Map<String, String>? header,]) async {
     dynamic responseJson;
     try{
       print(Uri.parse(baseUrl + url));
-      String getUrl = baseUrl+url;
+      String getUrl = isDetail?url:baseUrl+url;
       final response = await _http.get(Uri.parse(getUrl), headers:{'Content-type': 'application/json;charset=UTF-8','Charset': 'utf-8',...?header});
 
       print(response.body.toString());

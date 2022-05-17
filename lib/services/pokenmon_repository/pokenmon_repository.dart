@@ -13,7 +13,7 @@ import '../../models/network_failure_model/network_failure.dart';
 import '../../models/pokenmon_form_model/pokenmon_form_model.dart';
 abstract class BasePokenmonRepository {
   Future<Either<NetworkFailure, PokenmonNamesModel>> getPokenmon();
-  Future<Either<NetworkFailure, PokenmonFormModel>> getPokenmonForm(int id);
+  Future<Either<NetworkFailure, PokenmonFormModel>> getPokenmonForm(String url);
 }
 
 final pokenmonRepositoryProvider =
@@ -27,7 +27,7 @@ class PokenmonRepository implements BasePokenmonRepository {
   @override
   Future<Either<NetworkFailure, PokenmonNamesModel>> getPokenmon() async{
     try{
-      final Map<String, dynamic> response = await _read.read(networkHelperProvider).getRequest(ApiRoutes.GET_POKENMON+"?offset=${_read.read(pokenmonPageIndexHolderProvider).state}&limit=10", {}) as Map<String, dynamic>;
+      final Map<String, dynamic> response = await _read.read(networkHelperProvider).getRequest(ApiRoutes.GET_POKENMON+"?offset=${_read.read(pokenmonPageIndexHolderProvider).state}&limit=10",false,{}) as Map<String, dynamic>;
       final base = PokenmonNamesModel.fromJson(response);
       _read.read(pokenmonTotalCountHolderProvider).state=base.count;
       return right(base);
@@ -39,9 +39,9 @@ class PokenmonRepository implements BasePokenmonRepository {
   }
 
   @override
-  Future<Either<NetworkFailure, PokenmonFormModel>> getPokenmonForm(int id) async{
+  Future<Either<NetworkFailure, PokenmonFormModel>> getPokenmonForm(String url) async{
     try{
-      final Map<String, dynamic> response = await _read.read(networkHelperProvider).getRequest(ApiRoutes.GET_POKENMON+"/${id}", {}) as Map<String, dynamic>;
+      final Map<String, dynamic> response = await _read.read(networkHelperProvider).getRequest(url,true,{}) as Map<String, dynamic>;
       final base = PokenmonFormModel.fromJson(response);
       return right(base);
     }on NetworkFailure catch (e) {

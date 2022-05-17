@@ -35,7 +35,7 @@ class PokenmonCard extends HookWidget {
         ]
       ),
       child: FutureBuilder<Either<NetworkFailure, PokenmonFormModel>>(
-          future: context.read(pokenmonRepositoryProvider).getPokenmonForm(id),
+          future: context.read(pokenmonRepositoryProvider).getPokenmonForm(pokenmonResultModel.url),
           builder: (context,snapshot){
             if(snapshot.hasData){
               return snapshot.data!.fold((l){

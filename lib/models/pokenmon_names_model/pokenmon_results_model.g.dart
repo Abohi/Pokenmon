@@ -10,10 +10,12 @@ _$_PokenmonResultModel _$$_PokenmonResultModelFromJson(
         Map<String, dynamic> json) =>
     _$_PokenmonResultModel(
       name: json['name'] as String,
+      url: json['url'] as String,
     );
 
 Map<String, dynamic> _$$_PokenmonResultModelToJson(
         _$_PokenmonResultModel instance) =>
     <String, dynamic>{
       'name': instance.name,
+      'url': instance.url,
     };
