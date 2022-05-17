@@ -11,6 +11,10 @@ _$_PokenmonResultModel _$$_PokenmonResultModelFromJson(
     _$_PokenmonResultModel(
       name: json['name'] as String,
       url: json['url'] as String,
+      dummyPokenmon: json['dummyPokenmon'] == null
+          ? null
+          : PokenmonFormModel.fromJson(
+              json['dummyPokenmon'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_PokenmonResultModelToJson(
@@ -18,4 +22,5 @@ Map<String, dynamic> _$$_PokenmonResultModelToJson(
     <String, dynamic>{
       'name': instance.name,
       'url': instance.url,
+      'dummyPokenmon': instance.dummyPokenmon,
     };

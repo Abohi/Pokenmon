@@ -21,10 +21,14 @@ PokenmonResultModel _$PokenmonResultModelFromJson(Map<String, dynamic> json) {
 class _$PokenmonResultModelTearOff {
   const _$PokenmonResultModelTearOff();
 
-  _PokenmonResultModel call({required String name, required String url}) {
+  _PokenmonResultModel call(
+      {required String name,
+      required String url,
+      PokenmonFormModel? dummyPokenmon}) {
     return _PokenmonResultModel(
       name: name,
       url: url,
+      dummyPokenmon: dummyPokenmon,
     );
   }
 
@@ -40,6 +44,7 @@ const $PokenmonResultModel = _$PokenmonResultModelTearOff();
 mixin _$PokenmonResultModel {
   String get name => throw _privateConstructorUsedError;
   String get url => throw _privateConstructorUsedError;
+  PokenmonFormModel? get dummyPokenmon => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -52,7 +57,9 @@ abstract class $PokenmonResultModelCopyWith<$Res> {
   factory $PokenmonResultModelCopyWith(
           PokenmonResultModel value, $Res Function(PokenmonResultModel) then) =
       _$PokenmonResultModelCopyWithImpl<$Res>;
-  $Res call({String name, String url});
+  $Res call({String name, String url, PokenmonFormModel? dummyPokenmon});
+
+  $PokenmonFormModelCopyWith<$Res>? get dummyPokenmon;
 }
 
 /// @nodoc
@@ -68,6 +75,7 @@ class _$PokenmonResultModelCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? url = freezed,
+    Object? dummyPokenmon = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed
@@ -78,7 +86,22 @@ class _$PokenmonResultModelCopyWithImpl<$Res>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
+      dummyPokenmon: dummyPokenmon == freezed
+          ? _value.dummyPokenmon
+          : dummyPokenmon // ignore: cast_nullable_to_non_nullable
+              as PokenmonFormModel?,
     ));
+  }
+
+  @override
+  $PokenmonFormModelCopyWith<$Res>? get dummyPokenmon {
+    if (_value.dummyPokenmon == null) {
+      return null;
+    }
+
+    return $PokenmonFormModelCopyWith<$Res>(_value.dummyPokenmon!, (value) {
+      return _then(_value.copyWith(dummyPokenmon: value));
+    });
   }
 }
 
@@ -89,7 +112,10 @@ abstract class _$PokenmonResultModelCopyWith<$Res>
           $Res Function(_PokenmonResultModel) then) =
       __$PokenmonResultModelCopyWithImpl<$Res>;
   @override
-  $Res call({String name, String url});
+  $Res call({String name, String url, PokenmonFormModel? dummyPokenmon});
+
+  @override
+  $PokenmonFormModelCopyWith<$Res>? get dummyPokenmon;
 }
 
 /// @nodoc
@@ -107,6 +133,7 @@ class __$PokenmonResultModelCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? url = freezed,
+    Object? dummyPokenmon = freezed,
   }) {
     return _then(_PokenmonResultModel(
       name: name == freezed
@@ -117,6 +144,10 @@ class __$PokenmonResultModelCopyWithImpl<$Res>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
+      dummyPokenmon: dummyPokenmon == freezed
+          ? _value.dummyPokenmon
+          : dummyPokenmon // ignore: cast_nullable_to_non_nullable
+              as PokenmonFormModel?,
     ));
   }
 }
@@ -124,7 +155,8 @@ class __$PokenmonResultModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_PokenmonResultModel implements _PokenmonResultModel {
-  const _$_PokenmonResultModel({required this.name, required this.url});
+  const _$_PokenmonResultModel(
+      {required this.name, required this.url, this.dummyPokenmon});
 
   factory _$_PokenmonResultModel.fromJson(Map<String, dynamic> json) =>
       _$$_PokenmonResultModelFromJson(json);
@@ -133,10 +165,12 @@ class _$_PokenmonResultModel implements _PokenmonResultModel {
   final String name;
   @override
   final String url;
+  @override
+  final PokenmonFormModel? dummyPokenmon;
 
   @override
   String toString() {
-    return 'PokenmonResultModel(name: $name, url: $url)';
+    return 'PokenmonResultModel(name: $name, url: $url, dummyPokenmon: $dummyPokenmon)';
   }
 
   @override
@@ -146,14 +180,18 @@ class _$_PokenmonResultModel implements _PokenmonResultModel {
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.url, url) ||
-                const DeepCollectionEquality().equals(other.url, url)));
+                const DeepCollectionEquality().equals(other.url, url)) &&
+            (identical(other.dummyPokenmon, dummyPokenmon) ||
+                const DeepCollectionEquality()
+                    .equals(other.dummyPokenmon, dummyPokenmon)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(url);
+      const DeepCollectionEquality().hash(url) ^
+      const DeepCollectionEquality().hash(dummyPokenmon);
 
   @JsonKey(ignore: true)
   @override
@@ -169,7 +207,9 @@ class _$_PokenmonResultModel implements _PokenmonResultModel {
 
 abstract class _PokenmonResultModel implements PokenmonResultModel {
   const factory _PokenmonResultModel(
-      {required String name, required String url}) = _$_PokenmonResultModel;
+      {required String name,
+      required String url,
+      PokenmonFormModel? dummyPokenmon}) = _$_PokenmonResultModel;
 
   factory _PokenmonResultModel.fromJson(Map<String, dynamic> json) =
       _$_PokenmonResultModel.fromJson;
@@ -178,6 +218,8 @@ abstract class _PokenmonResultModel implements PokenmonResultModel {
   String get name => throw _privateConstructorUsedError;
   @override
   String get url => throw _privateConstructorUsedError;
+  @override
+  PokenmonFormModel? get dummyPokenmon => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$PokenmonResultModelCopyWith<_PokenmonResultModel> get copyWith =>

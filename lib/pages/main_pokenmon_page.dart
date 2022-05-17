@@ -5,6 +5,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pokemon/app_route/app_pages_route.gr.dart';
+
+import 'package:pokemon/pages/widgets/custom_rectangular_button.dart';
 import 'package:pokemon/pages/widgets/pokenmon_card.dart';
 import 'package:pokemon/providers/state_controller_provider/pokenmon_mainpage_statecontroller_provider.dart';
 import 'package:pokemon/providers/state_provider/pokenmonFormStateProvider.dart';
@@ -15,6 +17,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../models/network_failure_model/network_failure.dart';
 import '../models/pokenmon_names_model/pokenmon_names_model.dart';
+import '../providers/state_provider/pokenmonDefaultImageUrlProvider.dart';
 
 class MainPokemonPage extends HookWidget {
   const MainPokemonPage();
@@ -22,11 +25,18 @@ class MainPokemonPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var pokenMonState = useProvider(pokenmonStateControllerProvider);
     var pokenPageIndexState = useProvider(pokenmonPageIndexHolderProvider);
+    var pokenmonAddListState=useProvider(pokenMonFormProvider);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton:Padding(
+          padding: EdgeInsets.only(left: 10.w,right: 10.w,bottom: 10.w),
+          child: CustomRectangularButton(onButtonPressed: (){
+                  context.router.navigate(const AddPokemonRoute());
+          }, buttonLabelBg: Colors.white, buttonLabel: 'Add Pokemon', buttonBg: Colors.cyan,),
+        ),
         body: Container(
           width: size.width,
           height: size.height,
@@ -60,6 +70,9 @@ class MainPokemonPage extends HookWidget {
                             );
                             return SliverToBoxAdapter(child: SizedBox.shrink());
                           }, (r){
+                            WidgetsBinding.instance!.addPostFrameCallback((_){
+                              r.results.addAll(pokenmonAddListState.state);
+                            });
                             return SliverToBoxAdapter(
                               child: SizedBox(
                                 width: size.width,

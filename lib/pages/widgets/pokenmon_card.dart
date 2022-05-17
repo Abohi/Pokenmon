@@ -21,62 +21,88 @@ class PokenmonCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Container(
-      width: size.width*0.45,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(7.r),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xff000000).withOpacity(0.15),
-            blurRadius: 10,
-            offset: Offset(0,0)
-          )
-        ]
-      ),
-      child: FutureBuilder<Either<NetworkFailure, PokenmonFormModel>>(
-          future: context.read(pokenmonRepositoryProvider).getPokenmonForm(pokenmonResultModel.url),
-          builder: (context,snapshot){
-            if(snapshot.hasData){
-              return snapshot.data!.fold((l){
-                showTopSnackBar(
-                  context,
-                  CustomSnackBar.error(
-                    backgroundColor: const Color(0xffcf4537),
-                    message:l.prefix??"",
-                  ),
-                );
-                return SizedBox.shrink();
-              }, (r){
+    if(pokenmonResultModel.dummyPokenmon==null){
+      return Container(
+        width: size.width*0.45,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(7.r),
+            boxShadow: [
+              BoxShadow(
+                  color: const Color(0xff000000).withOpacity(0.15),
+                  blurRadius: 10,
+                  offset: Offset(0,0)
+              )
+            ]
+        ),
+        child: FutureBuilder<Either<NetworkFailure, PokenmonFormModel>>(
+            future: context.read(pokenmonRepositoryProvider).getPokenmonForm(pokenmonResultModel.url),
+            builder: (context,snapshot){
+              if(snapshot.hasData){
+                return snapshot.data!.fold((l){
+                  showTopSnackBar(
+                    context,
+                    CustomSnackBar.error(
+                      backgroundColor: const Color(0xffcf4537),
+                      message:l.prefix??"",
+                    ),
+                  );
+                  return SizedBox.shrink();
+                }, (r){
+                  return GestureDetector(
+                    onTap: (){
+                      onButtonPressed(r);
+                    },
+                    child: Column(children: [
+                      r.sprites.back_default==null?SizedBox.shrink():Center(child: Image.network(r.sprites.back_default!)),
+                      SizedBox(height: 15,),
+                      Center(child: Text(pokenmonResultModel.name.toUpperCase(),style: TextStyle(fontSize: 16,color: Colors.black),))
+                    ]),
+                  );
+                });
+              }else if(snapshot.connectionState==ConnectionState.waiting){
+                return Center(child: CircularProgressIndicator());
+              }else{
                 return GestureDetector(
                   onTap: (){
-                    onButtonPressed(r);
+                    onButtonPressed(null);
                   },
-                  child: Column(children: [
-                    r.sprites.back_default==null?SizedBox.shrink():Center(child: Image.network(r.sprites.back_default!)),
-                    SizedBox(height: 15,),
-                    Center(child: Text(pokenmonResultModel.name.toUpperCase(),style: TextStyle(fontSize: 16,color: Colors.black),))
-                  ]),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox.shrink(),
+                      Center(child: Text(pokenmonResultModel.name.toUpperCase(),style: TextStyle(fontSize: 16,color: Colors.black),))
+                    ],
+                  ),
                 );
-              });
-            }else if(snapshot.connectionState==ConnectionState.waiting){
-              return Center(child: CircularProgressIndicator());
-            }else{
-              return GestureDetector(
-                onTap: (){
-                  onButtonPressed(null);
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox.shrink(),
-                    Center(child: Text(pokenmonResultModel.name.toUpperCase(),style: TextStyle(fontSize: 16,color: Colors.black),))
-                  ],
-                ),
-              );
-            }
-          }),
+              }
+            }),
+      );
+    }
+    return GestureDetector(
+      onTap: (){
+        onButtonPressed(pokenmonResultModel.dummyPokenmon);
+      },
+      child: Container(
+        width: size.width*0.45,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(7.r),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xff000000).withOpacity(0.15),
+              blurRadius: 10,
+              offset: Offset(0,0)
+            )
+          ]
+        ),
+        child:Column(children: [
+          Center(child: Image.network(pokenmonResultModel.dummyPokenmon!.sprites.back_default!)),
+          SizedBox(height: 15,),
+          Center(child: Text(pokenmonResultModel.name.toUpperCase(),style: TextStyle(fontSize: 16,color: Colors.black),))
+        ]),
+      ),
     );
   }
 }
